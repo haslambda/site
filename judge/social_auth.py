@@ -97,9 +97,10 @@ def make_profile(backend, user, response, is_new=False, *args, **kwargs):
                     revisions.set_user(user)
                     revisions.set_comment('Updated on registration')
                     return
-        return render(backend.strategy.request, 'registration/profile_creation.html', {
-            'title': 'Create your profile', 'form': form
-        })
+        return HttpResponseRedirect('/user')
+#        return render(backend.strategy.request, 'registration/profile_creation.html', {
+#            'title': 'Create your profile', 'form': form
+#        })
 
 
 class SocialAuthExceptionMiddleware(OldSocialAuthExceptionMiddleware):
