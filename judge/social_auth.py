@@ -106,5 +106,4 @@ def make_profile(backend, user, response, is_new=False, *args, **kwargs):
 class SocialAuthExceptionMiddleware(OldSocialAuthExceptionMiddleware):
     def process_exception(self, request, exception):
         if isinstance(exception, SocialAuthBaseException):
-            return HttpResponseRedirect('%s?message=%s' % (reverse('social_auth_error'),
-                                                           quote(self.get_message(request, exception))))
+            return HttpResponseRedirect('/user')#% (reverse('social_auth_error'), quote(self.get_message(request, exception))))
