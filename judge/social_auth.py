@@ -86,10 +86,12 @@ def make_profile(backend, user, response, is_new=False, *args, **kwargs):
             profile.language = Language.get_python2()
             logger.info('Info from %s: %s', backend.name, response)
             profile.save()
-            form = ProfileForm(instance=profile, user=user)
+            return
+#            form = ProfileForm(instance=profile, user=user)
         else:
             data = backend.strategy.request_data()
             logger.info(data)
+            return
             form = ProfileForm(data, instance=user.profile, user=user)
             if form.is_valid():
                 with transaction.atomic(), revisions.create_revision():
@@ -97,7 +99,7 @@ def make_profile(backend, user, response, is_new=False, *args, **kwargs):
                     revisions.set_user(user)
                     revisions.set_comment('Updated on registration')
                     return
-        return HttpResponseRedirect('/user')
+#        return HttpResponseRedirect('/user')
 #        return render(backend.strategy.request, 'registration/profile_creation.html', {
 #            'title': 'Create your profile', 'form': form
 #        })
@@ -106,4 +108,5 @@ def make_profile(backend, user, response, is_new=False, *args, **kwargs):
 class SocialAuthExceptionMiddleware(OldSocialAuthExceptionMiddleware):
     def process_exception(self, request, exception):
         if isinstance(exception, SocialAuthBaseException):
-            return HttpResponseRedirect('/user')#% (reverse('social_auth_error'), quote(self.get_message(request, exception))))
+            return HttpResponseRedirect('%s?message=%s' % (reverse('social_auth_error'),
+                                                           quote(self.get_message(request, exception))))
