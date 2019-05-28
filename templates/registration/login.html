@@ -39,8 +39,6 @@
 
 {% block body %}
     <div id="login-panel">
-        <br><a href="{{ url('password_reset') }}">{{ _('Forgot your password?') }}</a>
-
         {% if form.has_google_auth or form.has_facebook_auth or form.has_github_auth or form.has_dropbox_auth %}
             <h4>구글 계정을 이용해서 로그인하세요.</h4>
             {% if form.has_google_auth %}
