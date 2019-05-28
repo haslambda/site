@@ -134,11 +134,11 @@
 {% block body %}
     <div id="center-float">
         <h4>구글 계정을 이용해서 가입하세요.</h4>
-        {% if form.has_google_auth %}
+        
                 <a href="{{ url('social:begin', "google-oauth2") }}?next={{ next }}" class="social google-icon">
                     <i class="fa fa-google-plus-square"></i>
                 </a>
-        {% endif %}
+        
     </div>
 
     <div class="map-wrap">
