@@ -133,11 +133,13 @@
 
 {% block body %}
     <div id="center-float">
-        <h4>구글 계정을 이용해서 가입하세요.</h4>
+        <h4>구글 계정을 이용해서 가입하세요.
+            <a href="{{ url('social:begin', "google-oauth2") }}?next={{ next }}" class="social google-icon">
+                <i class="fa fa-google-plus-square"></i>
+            </a>
+        </h4>
         
-                <a href="{{ url('social:begin', "google-oauth2") }}?next={{ next }}" class="social google-icon">
-                    <i class="fa fa-google-plus-square"></i>
-                </a>
+                
         
     </div>
 
