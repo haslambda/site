@@ -21,7 +21,7 @@
             <h4>구글 계정을 이용해서 로그인하거나 가입하세요.</h4>
             {% if form.has_google_auth %}
                 <a href="{{ url('social:begin', "google-oauth2") }}?next={{ next }}">
-                    <img id="signInButton" alt="Sign In With Google" src="/btn_google_normal.png" onmouseover="this.src='/btn_google_clicked.png'" onmouseout="this.src='/btn_google_normal.png'" onclick="this.src='/btn_google_clicked.png'"/>
+                    <img id="signInButton" alt="Sign In With Google" src="/btn_google_normal.png" onmouseover="this.src='/btn_google_clicked.png'" onmouseout="this.src='/btn_google_normal.png'" onclick="this.src='/btn_google_pressed.png'"/>
                 </a>
             {% else %}
                 <img id="signInButton" alt="Sign In With Google" src="/btn_google_disabled.png"/>
