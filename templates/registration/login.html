@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+<!-- needs meta tag for google login informartion -->
 {% block media %}
     <style>
         #login-panel {
@@ -12,39 +12,19 @@
         h4 {
             padding-top: 1em;
         }
-
-        .social {
-            display: inline;
-            font-size: 2.3em;
-            float: none;
-        }
-
-        .google-icon i {
-            color: #DD4B38;
-        }
-
-        .facebook-icon i {
-            color: #133783;
-        }
-
-        .github-icon i {
-            color: black;
-        }
-
-        .dropbox-icon i {
-            color: #55ACEE;
-        }
     </style>
 {% endblock %}
 
 {% block body %}
     <div id="login-panel">
         {% if form.has_google_auth or form.has_facebook_auth or form.has_github_auth or form.has_dropbox_auth %}
-            <h4>구글 계정을 이용해서 로그인하세요.</h4>
+            <h4>구글 계정을 이용해서 로그인하거나 가입하세요.</h4>
             {% if form.has_google_auth %}
-                <a href="{{ url('social:begin', "google-oauth2") }}?next={{ next }}" class="social google-icon">
-                    <i class="fa fa-google-plus-square"></i>
+                <a href="{{ url('social:begin', "google-oauth2") }}?next={{ next }}">
+                    <img id="signInButton" alt="Sign In With Google" src="/btn_google_normal.png" onmouseover="this.src='/btn_google_clicked.png'" onmouseout="this.src='/btn_google_normal.png'" onclick="this.src='/btn_google_clicked.png'"/>
                 </a>
+            {% else %}
+                <img id="signInButton" alt="Sign In With Google" src="/btn_google_disabled.png"/>
             {% endif %}
             {% if form.has_facebook_auth %}
                 <a href="{{ url('social:begin', "facebook") }}?next={{ next }}" class="social facebook-icon">
@@ -63,4 +43,5 @@
             {% endif %}
         {% endif %}
     </div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 {% endblock %}
