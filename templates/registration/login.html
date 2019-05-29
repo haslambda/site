@@ -21,7 +21,7 @@
             <h4>구글 계정을 이용해서 로그인하거나 가입하세요.</h4>
             {% if form.has_google_auth %}
                 <a href="{{ url('social:begin', "google-oauth2") }}?next={{ next }}">
-                    <img id="signInButton" width="191" height="46" alt="Sign In With Google" src="/btn_google_normal.png" onmouseover="this.src='/btn_google_focus.png'" onmouseout="this.src='/btn_google_normal.png'" onclick="this.src='/btn_google_pressed.png'"/>
+                    <img id="signInButton" width="191" height="46" alt="Sign In With Google" src="/btn_google_normal.png" onmouseover="changeLogoOn()" onmouseout="changeLogoOut()" onclick="this.src='/btn_google_pressed.png'"/>
                 </a>
             {% else %}
                 <img id="signInButton" width="191" height="46" alt="Sign In With Google" src="/btn_google_disabled.png"/>
@@ -43,5 +43,17 @@
             {% endif %}
         {% endif %}
     </div>
+    <script language="javascript">
+        function changeLogoOn(){
+            if (document.getElementById('signInButton').attributes.src.value != '/btn_google_pressed.png') {
+                document.getElementById('signInButton').src='/btn_google_focus.png'
+            }
+        }
+        function changeLogoOut(){
+            if (document.getElementById('signInButton').attributes.src.value != '/btn_google_pressed.png') {
+                document.getElementById('signInButton').src='/btn_google_normal.png'
+            }
+        }
+    </script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 {% endblock %}
