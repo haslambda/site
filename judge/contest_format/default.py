@@ -8,8 +8,6 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 from django.utils.html import avoid_wrapping
-from django.db import connection
-from judge.timezone import from_database_time
 
 from judge.contest_format.base import BaseContestFormat
 from judge.contest_format.registry import register_contest_format
