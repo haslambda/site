@@ -60,7 +60,7 @@ class DefaultContestFormat(BaseContestFormat):
                 url=reverse('contest_user_submissions',
                             args=[self.contest.key, participation.user.user.username, contest_problem.problem.code]),
                 points=floatformat(format_data['points']),
-                codesize=kbdetailformat(format_data['codesize']),
+                codesize=kbdetailformat(format_data['codesize'])
             )
         else:
             return mark_safe('<td></td>')
@@ -69,7 +69,7 @@ class DefaultContestFormat(BaseContestFormat):
         return format_html(
             u'<td class="user-points">{points}<div class="solving-time">{cumtime}</div></td>',
             points=floatformat(participation.score),
-            cumtime=kbdetailformat(participation.cumsize),
+            cumtime=kbdetailformat(participation.cumsize)
         )
 
     def get_problem_breakdown(self, participation, contest_problems):
