@@ -120,7 +120,7 @@ class Submission(models.Model):
         if not self.codesize:
             src_byte = utf8bytes(self.source.source)
             if src_byte:
-                self.codesize = len(src_byte)
+                self.codesize = len(src_byte)/1024
             else:
                 self.codesize = 0
             self.save()
