@@ -108,7 +108,7 @@ class SubmissionSourceInline(admin.StackedInline):
 class SubmissionAdmin(admin.ModelAdmin):
     readonly_fields = ('user', 'problem', 'date')
     fields = ('user', 'problem', 'date', 'time', 'memory', 'points', 'language', 'status', 'result',
-              'case_points', 'case_total', 'judged_on', 'error', 'codesize')
+              'case_points', 'case_total', 'judged_on', 'error')
     actions = ('judge', 'recalculate_score')
     list_display = ('id', 'problem_code', 'problem_name', 'user_column', 'execution_time', 'pretty_memory',
                     'points', 'language_column', 'status', 'result', 'judge_column')
@@ -121,7 +121,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         queryset = Submission.objects.select_related('problem', 'user__user', 'language').only(
             'problem__code', 'problem__name', 'user__user__username', 'language__name',
-            'time', 'memory', 'points', 'status', 'result', 'codesize'
+            'time', 'memory', 'points', 'status', 'result'
         )
         use_straight_join(queryset)
         if not request.user.has_perm('judge.edit_all_problem'):
