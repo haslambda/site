@@ -111,13 +111,13 @@ class Submission(models.Model):
         return Submission.USER_DISPLAY_CODES.get(self.short_status, '')
 
     def judge(self, rejudge):
-        self.update_codesize(self)
+        self.update_codesize()
         judge_submission(self, rejudge)
 
     judge.alters_data = True
 
     def update_codesize(self):
-        if self.codesize is None:
+        if not self.codesize:
             src_byte = utf8bytes(self.source.source)
             if src_byte:
                 self.codesize = len(src_byte)
