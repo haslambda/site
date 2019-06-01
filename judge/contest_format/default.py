@@ -13,6 +13,7 @@ from judge.timezone import from_database_time
 from judge.contest_format.base import BaseContestFormat
 from judge.contest_format.registry import register_contest_format
 from judge.utils.timedelta import nice_repr
+from judge.jinja2.filesize import kbdetailformat
 
 
 @register_contest_format('default')
@@ -53,13 +54,13 @@ class DefaultContestFormat(BaseContestFormat):
         format_data = (participation.format_data or {}).get(str(contest_problem.id))
         if format_data:
             return format_html(
-                u'<td class="{state}"><a href="{url}">{points}<div class="solving-time">{time}</div></a></td>',
+                u'<td class="{state}"><a href="{url}">{points}<div class="solving-time">{codesize}</div></a></td>',
                 state=('pretest-' if self.contest.run_pretests_only and contest_problem.is_pretested else '') +
                       self.best_solution_state(format_data['points'], contest_problem.points),
                 url=reverse('contest_user_submissions',
                             args=[self.contest.key, participation.user.user.username, contest_problem.problem.code]),
                 points=floatformat(format_data['points']),
-                time=nice_repr(timedelta(seconds=format_data['time']), 'noday'),
+                codesize=kbdetailformat(format_data['codesize']),
             )
         else:
             return mark_safe('<td></td>')
@@ -68,7 +69,7 @@ class DefaultContestFormat(BaseContestFormat):
         return format_html(
             u'<td class="user-points">{points}<div class="solving-time">{cumtime}</div></td>',
             points=floatformat(participation.score),
-            cumtime=nice_repr(timedelta(seconds=participation.cumtime), 'noday'),
+            cumtime=kbdetailformat(participation.cumsize),
         )
 
     def get_problem_breakdown(self, participation, contest_problems):
