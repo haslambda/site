@@ -1761,6 +1761,9 @@ msgstr ""
 msgid "points granted"
 msgstr ""
 
+msgid "file size"
+msgstr ""
+
 #: .\judge\models\submission.py:64
 msgid "submission language"
 msgstr ""

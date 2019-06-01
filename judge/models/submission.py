@@ -14,7 +14,6 @@ from judge.models.profile import Profile
 from judge.models.runtime import Language
 from judge.utils.unicode import utf8bytes
 
-
 __all__ = ['SUBMISSION_RESULT', 'Submission', 'SubmissionSource', 'SubmissionTestCase']
 
 SUBMISSION_RESULT = (
@@ -64,6 +63,7 @@ class Submission(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     date = models.DateTimeField(verbose_name=_('submission time'), auto_now_add=True, db_index=True)
+    codesize = models.FloatField(verbose_name=_('code size'), null=True, db_index=True)
     time = models.FloatField(verbose_name=_('execution time'), null=True, db_index=True)
     memory = models.FloatField(verbose_name=_('memory usage'), null=True)
     points = models.FloatField(verbose_name=_('points granted'), null=True, db_index=True)
@@ -111,9 +111,19 @@ class Submission(models.Model):
         return Submission.USER_DISPLAY_CODES.get(self.short_status, '')
 
     def judge(self, rejudge):
+        self.update_codesize(self)
         judge_submission(self, rejudge)
 
     judge.alters_data = True
+
+    def update_codesize(self):
+        if self.codesize is None:
+            src_byte = utf8bytes(self.source.source)
+            if src_byte:
+                self.codesize = len(src_byte)
+            else:
+                self.codesize = 0
+            self.save()
 
     def abort(self):
         abort_submission(self)
@@ -160,7 +170,8 @@ class Submission(models.Model):
 
     @classmethod
     def get_id_secret(cls, sub_id):
-        return (hmac.new(utf8bytes(settings.EVENT_DAEMON_SUBMISSION_KEY), b'%d' % sub_id, hashlib.sha512).hexdigest()[:16] +
+        return (hmac.new(utf8bytes(settings.EVENT_DAEMON_SUBMISSION_KEY), b'%d' % sub_id, hashlib.sha512).hexdigest()[
+                :16] +
                 '%08x' % sub_id)
 
     @cached_property
@@ -198,6 +209,7 @@ class SubmissionTestCase(models.Model):
     status = models.CharField(max_length=3, verbose_name=_('status flag'), choices=SUBMISSION_RESULT)
     time = models.FloatField(verbose_name=_('execution time'), null=True)
     memory = models.FloatField(verbose_name=_('memory usage'), null=True)
+    codesize = models.FloatField(verbose_name=_('file size'), null=True)
     points = models.FloatField(verbose_name=_('points granted'), null=True)
     total = models.FloatField(verbose_name=_('points possible'), null=True)
     batch = models.IntegerField(verbose_name=_('batch number'), null=True)

@@ -437,7 +437,7 @@ class CachedContestCalendar(ContestCalendar):
 
 ContestRankingProfile = namedtuple(
     'ContestRankingProfile',
-    'id user css_class username points cumtime organization participation '
+    'id user css_class username points cumtime organization participation codebytes '
     'participation_rating problem_cells result_cell'
 )
 
@@ -453,6 +453,7 @@ def make_contest_ranking_profile(contest, participation, contest_problems):
         username=user.username,
         points=participation.score,
         cumtime=participation.cumtime,
+        codebytes=participation.codesize,
         organization=user.organization,
         participation_rating=participation.rating.rating if hasattr(participation, 'rating') else None,
         problem_cells=[contest.format.display_user_problem(participation, contest_problem)
@@ -470,7 +471,7 @@ def base_contest_ranking_list(contest, problems, queryset):
 def contest_ranking_list(contest, problems):
     return base_contest_ranking_list(contest, problems, contest.users.filter(virtual=0, user__is_unlisted=False)
                                      .prefetch_related('user__organizations')
-                                     .order_by('-score', 'cumtime'))
+                                     .order_by('-score', 'codebytes'))
 
 
 def get_contest_ranking_list(request, contest, participation=None, ranking_list=contest_ranking_list,
@@ -481,7 +482,7 @@ def get_contest_ranking_list(request, contest, participation=None, ranking_list=
         return ([(_('???'), make_contest_ranking_profile(contest, request.user.profile.current_contest, problems))],
                 problems)
 
-    users = ranker(ranking_list(contest, problems), key=attrgetter('points', 'cumtime'))
+    users = ranker(ranking_list(contest, problems), key=attrgetter('points', 'codebytes'))
 
     if show_current_virtual:
         if participation is None and request.user.is_authenticated:

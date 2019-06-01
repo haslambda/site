@@ -1716,6 +1716,9 @@ msgstr "메모리 사용량"
 msgid "points granted"
 msgstr "획득 포인트"
 
+msgid "file size"
+msgstr "코드 길이"
+
 #: .\judge\models\submission.py:64
 msgid "submission language"
 msgstr "제출 언어"

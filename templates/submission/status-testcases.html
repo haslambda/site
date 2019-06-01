@@ -111,6 +111,9 @@
                 {% endif %}
                 {{ submission.memory|kbdetailformat }}
                 <br>
+                <b>{{ _('Code Length:')}}</b>
+                {{ submission.codesize|kbdetailformat }}
+                <br>
                 {% if is_pretest %}
                     <b>{{ _('Final pretest score:') }}</b>
                 {% else %}
