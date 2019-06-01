@@ -453,7 +453,7 @@ def make_contest_ranking_profile(contest, participation, contest_problems):
         username=user.username,
         points=participation.score,
         cumtime=participation.cumtime,
-        cumsize=participation.codesize,
+        cumsize=participation.cumsize,
         organization=user.organization,
         participation_rating=participation.rating.rating if hasattr(participation, 'rating') else None,
         problem_cells=[contest.format.display_user_problem(participation, contest_problem)
