@@ -224,6 +224,8 @@ class ContestParticipation(models.Model):
     real_start = models.DateTimeField(verbose_name=_('start time'), default=timezone.now, db_column='start')
     score = models.IntegerField(verbose_name=_('score'), default=0, db_index=True)
     cumtime = models.PositiveIntegerField(verbose_name=_('cumulative time'), default=0)
+    cumsize = models.FloatField(verbose_name=_('file size'), default=0, db_index=True)
+
     virtual = models.IntegerField(verbose_name=_('virtual participation id'), default=0,
                                   help_text=_('0 means non-virtual, otherwise the n-th virtual participation'))
     format_data = JSONField(verbose_name=_('contest format specific data'), null=True, blank=True)
@@ -314,6 +316,7 @@ class ContestSubmission(models.Model):
     participation = models.ForeignKey(ContestParticipation, verbose_name=_('participation'), on_delete=CASCADE,
                                       related_name='submissions', related_query_name='submission')
     points = models.FloatField(default=0.0, verbose_name=_('points'))
+    codesize = models.FloatField(verbose_name=_('file size'), null=True, db_index=True)
     is_pretest = models.BooleanField(verbose_name=_('is pretested'),
                                      help_text=_('Whether this submission was ran only on pretests.'),
                                      default=False)

@@ -141,6 +141,8 @@ class Submission(models.Model):
                                if self.case_total > 0 else 0, 3)
         if not contest_problem.partial and contest.points != contest_problem.points:
             contest.points = 0
+        self.update_codesize()
+        contest.codesize = self.codesize
         contest.save()
         contest.participation.recompute_results()
 
