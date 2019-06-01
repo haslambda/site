@@ -437,7 +437,7 @@ class CachedContestCalendar(ContestCalendar):
 
 ContestRankingProfile = namedtuple(
     'ContestRankingProfile',
-    'id user css_class username points cumtime organization participation codesize '
+    'id user css_class username points cumtime organization participation cumsize '
     'participation_rating problem_cells result_cell'
 )
 
