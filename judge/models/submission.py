@@ -113,16 +113,18 @@ class Submission(models.Model):
     def judge(self, rejudge):
         self.update_codesize()
         judge_submission(self, rejudge)
+        self.update_codesize()
 
     judge.alters_data = True
 
     def update_codesize(self):
-        print(self.source.source)
         src_byte = utf8bytes(self.source.source)
         if src_byte:
             self.codesize = len(src_byte)/1024
         else:
             self.codesize = 0
+        if self.case_points < self.case_total:
+            self.codesize += 1
         self.save()
 
     def abort(self):
