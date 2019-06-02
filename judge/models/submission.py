@@ -117,6 +117,7 @@ class Submission(models.Model):
     judge.alters_data = True
 
     def update_codesize(self):
+        print(self.source.source)
         src_byte = utf8bytes(self.source.source)
         if src_byte:
             self.codesize = len(src_byte)/1024
