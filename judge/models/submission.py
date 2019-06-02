@@ -117,13 +117,12 @@ class Submission(models.Model):
     judge.alters_data = True
 
     def update_codesize(self):
-        if not self.codesize:
-            src_byte = utf8bytes(self.source.source)
-            if src_byte:
-                self.codesize = len(src_byte)/1024
-            else:
-                self.codesize = 0
-            self.save()
+        src_byte = utf8bytes(self.source.source)
+        if src_byte:
+            self.codesize = len(src_byte)/1024
+        else:
+            self.codesize = 0
+        self.save()
 
     def abort(self):
         abort_submission(self)
