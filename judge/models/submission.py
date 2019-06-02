@@ -123,7 +123,7 @@ class Submission(models.Model):
             self.codesize = len(src_byte)/1024
         else:
             self.codesize = 0
-        if self.case_points < self.case_total:
+        if self.case_points < self.case_total or self.points == 0:
             self.codesize += 1
         self.save()
 
